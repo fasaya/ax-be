@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Models\Stock;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Imports\ProductImport;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ResponseHelper;
+use App\Http\Requests\V1\ProductImportRequest;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\V1\ProductResource;
 use App\Http\Resources\V1\ProductCollection;
 use App\Http\Requests\V1\ProductStoreRequest;
 use App\Http\Requests\V1\ProductUpdateRequest;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
@@ -125,5 +129,15 @@ class ProductController extends Controller
         }
 
         return ResponseHelper::sendResponse(null, 'Data successfully deleted');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function import(ProductImportRequest $request)
+    {
+        Excel::import(new ProductImport, $request->file('file'));
+
+        return ResponseHelper::sendResponse(null, 'Data successfully imported');
     }
 }

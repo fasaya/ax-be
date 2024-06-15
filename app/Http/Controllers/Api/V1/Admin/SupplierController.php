@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Imports\SupplierImport;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ResponseHelper;
-use App\Http\Requests\V1\SupplierStoreRequest;
-use App\Http\Requests\V1\SupplierUpdateRequest;
-use App\Http\Resources\V1\SupplierCollection;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\V1\SupplierResource;
+use App\Http\Resources\V1\SupplierCollection;
+use App\Http\Requests\V1\SupplierStoreRequest;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\V1\SupplierImportRequest;
+use App\Http\Requests\V1\SupplierUpdateRequest;
 
 class SupplierController extends Controller
 {
@@ -109,5 +112,15 @@ class SupplierController extends Controller
         }
 
         return ResponseHelper::sendResponse(null, 'Data successfully deleted');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function import(SupplierImportRequest $request)
+    {
+        Excel::import(new SupplierImport, $request->file('file'));
+
+        return ResponseHelper::sendResponse(null, 'Data successfully imported');
     }
 }
