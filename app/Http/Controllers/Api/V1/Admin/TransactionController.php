@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Enums\TransactionStatus;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Enums\TransactionStatus;
+use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ResponseHelper;
+use App\Http\Requests\V1\TransactionExportRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Resources\V1\TransactionResource;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\V1\TransactionCollection;
 use App\Http\Requests\V1\TransactionStoreRequest;
 use App\Http\Requests\V1\TransactionUpdateRequest;
-use App\Http\Resources\V1\TransactionCollection;
-use App\Http\Resources\V1\TransactionResource;
-use App\Models\Product;
-use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
 {
@@ -114,5 +117,16 @@ class TransactionController extends Controller
         $transaction->delete();
 
         return ResponseHelper::sendResponse(null, 'Data successfully deleted');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function export(TransactionExportRequest $request)
+    {
+        return Excel::download(
+            new TransactionExport($request->start_date, $request->end_date),
+            'transaction.xlsx'
+        );
     }
 }

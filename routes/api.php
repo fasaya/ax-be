@@ -18,12 +18,13 @@ Route::prefix('v1/')->as('api.v1.')->group(function () {
     Route::middleware('auth:sanctum')->prefix('admin/')->as('admin.')->group(function () {
         Route::resource('user', App\Http\Controllers\Api\V1\Admin\UserController::class);
 
-        Route::resource('product', App\Http\Controllers\Api\V1\Admin\ProductController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
         Route::post('product/import', [App\Http\Controllers\Api\V1\Admin\ProductController::class, 'import']);
+        Route::resource('product', App\Http\Controllers\Api\V1\Admin\ProductController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
-        Route::resource('supplier', App\Http\Controllers\Api\V1\Admin\SupplierController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
         Route::post('supplier/import', [App\Http\Controllers\Api\V1\Admin\SupplierController::class, 'import']);
+        Route::resource('supplier', App\Http\Controllers\Api\V1\Admin\SupplierController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
+        Route::get('transaction/export', [App\Http\Controllers\Api\V1\Admin\TransactionController::class, 'export']);
         Route::resource('transaction', App\Http\Controllers\Api\V1\Admin\TransactionController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
     });
 });
