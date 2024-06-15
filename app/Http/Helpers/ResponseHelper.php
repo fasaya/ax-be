@@ -13,14 +13,17 @@ class ResponseHelper
      *
      * @return \Illuminate\Http\Response
      */
-    public static function sendResponse($data, $message, $code = Response::HTTP_OK)
+    public static function sendResponse($data = null, $message = "Data successfully fetched", $code = Response::HTTP_OK)
     {
         $response = [
             'status' => 'success',
             'status_code' => $code,
             'message' => $message,
-            'data' => $data,
         ];
+
+        if ($data) {
+            $response['data'] = $data;
+        }
 
         return response()->json($response, $code);
     }
@@ -30,12 +33,12 @@ class ResponseHelper
      *
      * @return \Illuminate\Http\Response
      */
-    public static function sendErrorResponse($message, $code = Response::HTTP_NOT_FOUND, $data = null)
+    public static function sendErrorResponse($message = "Data not found", $code = Response::HTTP_NOT_FOUND, $data = null)
     {
         $response = [
             'status' => 'error',
             'status_code' => $code,
-            'message' => $error,
+            'message' => $message,
         ];
 
         if (!empty($data)) {
@@ -43,6 +46,22 @@ class ResponseHelper
         }
 
         return response()->json($response, $code);
+    }
+
+    /**
+     * return error response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public static function sendErrorNotFoundResponse()
+    {
+        $response = [
+            'status' => 'error',
+            'status_code' => Response::HTTP_NOT_FOUND,
+            'message' => "Data not found",
+        ];
+
+        return response()->json($response, Response::HTTP_NOT_FOUND);
     }
 
     /**

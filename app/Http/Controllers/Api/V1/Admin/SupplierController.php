@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\ResponseHelper;
+use App\Http\Requests\V1\SupplierStoreRequest;
+use App\Http\Requests\V1\SupplierUpdateRequest;
+use App\Http\Resources\V1\SupplierCollection;
+use App\Http\Resources\V1\SupplierResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class SupplierController extends Controller
 {
@@ -13,54 +19,95 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $data = Supplier::paginate(10);
+        return new SupplierCollection($data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SupplierStoreRequest $request)
     {
-        //
+        $data = $request->only([
+            'code',
+            'name',
+            'address',
+            'phone',
+            'email',
+            'npwp',
+            'pic_name',
+            'pic_phone',
+            'pic_email',
+            'preferred_payout',
+        ]);
+
+        $supplier = Supplier::create($data);
+
+        return SupplierResource::make($supplier);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show($supplier)
     {
-        //
-    }
+        $supplier = Supplier::find($supplier);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Supplier $supplier)
-    {
-        //
+        if (!$supplier) {
+            return ResponseHelper::sendErrorNotFoundResponse();
+        }
+
+        return SupplierResource::make($supplier);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(SupplierUpdateRequest $request, $supplier)
     {
-        //
+        $supplier = Supplier::find($supplier);
+
+        if (!$supplier) {
+            return ResponseHelper::sendErrorNotFoundResponse();
+        }
+
+        $data = $request->only([
+            'code',
+            'name',
+            'address',
+            'phone',
+            'email',
+            'npwp',
+            'pic_name',
+            'pic_phone',
+            'pic_email',
+            'preferred_payout',
+        ]);
+
+        $supplier->update($data);
+
+        $supplier = Supplier::find($supplier->id);
+
+        return SupplierResource::make($supplier);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy($supplier)
     {
-        //
+        $supplier = Supplier::find($supplier);
+
+        if (!$supplier) {
+            return ResponseHelper::sendErrorNotFoundResponse();
+        }
+
+        try {
+            $supplier->delete();
+        } catch (\Throwable $th) {
+            return ResponseHelper::sendErrorResponse("Failed to delete", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return ResponseHelper::sendResponse(null, 'Data successfully deleted');
     }
 }

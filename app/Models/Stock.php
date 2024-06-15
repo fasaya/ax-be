@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Supplier extends Model
+class Stock extends Model
 {
     use HasFactory;
 
@@ -15,16 +15,8 @@ class Supplier extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'code',
-        'name',
-        'address',
-        'phone',
-        'email',
-        'npwp',
-        'pic_name',
-        'pic_phone',
-        'pic_email',
-        'preferred_payout',
+        'product_id',
+        'quantity',
         'created_by',
         'updated_by',
     ];

@@ -17,8 +17,8 @@ Route::prefix('v1/')->as('api.v1.')->group(function () {
 
     Route::middleware('auth:sanctum')->prefix('admin/')->as('admin.')->group(function () {
         Route::resource('user', App\Http\Controllers\Api\V1\Admin\UserController::class);
-        Route::resource('product', App\Http\Controllers\Api\V1\Admin\ProductController::class);
-        Route::resource('supplier', App\Http\Controllers\Api\V1\Admin\SupplierController::class);
-        Route::resource('transaction', App\Http\Controllers\Api\V1\Admin\TransactionController::class);
+        Route::resource('product', App\Http\Controllers\Api\V1\Admin\ProductController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+        Route::resource('supplier', App\Http\Controllers\Api\V1\Admin\SupplierController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+        Route::resource('transaction', App\Http\Controllers\Api\V1\Admin\TransactionController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
     });
 });
