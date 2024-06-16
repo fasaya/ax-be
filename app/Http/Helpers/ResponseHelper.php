@@ -74,7 +74,7 @@ class ResponseHelper
         return response()->json([
             'status' => 'error',
             'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
-            'message' => 'Validation failed',
+            'message' => implode(" ", $errors->all()),
             'errors' => $errors
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
