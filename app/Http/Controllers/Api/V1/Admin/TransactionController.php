@@ -55,6 +55,12 @@ class TransactionController extends Controller
             });
         }
 
+        if (isset($request->start_date, $request->end_date)) {
+            $start_date = date('Y-m-d', strtotime($request->start_date));
+            $end_date = date('Y-m-d', strtotime($request->end_date));
+            $data = $data->whereBetween('paid_at', [$start_date . " 00:00:00", $end_date . " 23:59:59"]);
+        }
+
         $data = $data->orderBy('id', 'DESC');
 
         $data = $request->per_page ? $data->paginate($request->per_page) : $data->get();

@@ -27,7 +27,7 @@ class TransactionExport implements ShouldAutoSize, FromView
             $start_date = date('Y-m-d', strtotime($this->startDate));
             $end_date = date('Y-m-d', strtotime($this->endDate));
 
-            $data = $data->whereBetween('created_at', [$start_date . " 00:00:00", $end_date . " 23:59:59"]);
+            $data = $data->whereBetween('paid_at', [$start_date . " 00:00:00", $end_date . " 23:59:59"]);
         }
 
         $data = $data->get();
