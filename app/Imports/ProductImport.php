@@ -8,8 +8,9 @@ use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
-class ProductImport implements ToModel, WithHeadingRow, WithValidation
+class ProductImport implements ToModel, SkipsEmptyRows, WithHeadingRow, WithValidation
 {
     /**
      * @param array $row
