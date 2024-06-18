@@ -15,8 +15,8 @@ Route::prefix('v1/')->as('api.v1.')->group(function () {
         Route::post('login', 'login')->name('login');
     });
 
-    Route::middleware('auth:sanctum')->prefix('admin/')->as('admin.')->group(function () {
-        Route::resource('user', App\Http\Controllers\Api\V1\Admin\UserController::class);
+    Route::middleware('auth:api')->prefix('admin/')->as('admin.')->group(function () {
+        // Route::resource('user', App\Http\Controllers\Api\V1\Admin\UserController::class);
 
         Route::post('product/import', [App\Http\Controllers\Api\V1\Admin\ProductController::class, 'import']);
         Route::resource('product', App\Http\Controllers\Api\V1\Admin\ProductController::class)->only(['index', 'show', 'store', 'update', 'destroy']);

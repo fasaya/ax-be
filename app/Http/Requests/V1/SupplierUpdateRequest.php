@@ -24,13 +24,21 @@ class SupplierUpdateRequest extends BaseRequest
             'code' => 'required|unique:suppliers,code,' . request()->supplier,
             'name' => 'required',
             'address' => 'nullable',
-            'phone' => 'nullable',
+            'phone' => 'nullable|regex:/^[\d\s\+]*$/',
             'email' => 'nullable|email',
             'npwp' => 'nullable',
             'pic_name' => 'nullable',
-            'pic_phone' => 'nullable',
+            'pic_phone' => 'nullable|regex:/^[\d\s\+]*$/',
             'pic_email' => 'nullable',
             'preferred_payout' => 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'phone.regex' => 'Phone format is incorrect',
+            'pic_phone.regex' => 'PIC phone format is incorrect',
         ];
     }
 }
