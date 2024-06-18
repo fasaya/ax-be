@@ -139,4 +139,18 @@ class SupplierController extends Controller
 
         return ResponseHelper::sendResponse(null, 'Data successfully imported');
     }
+
+    public function downloadImportTemplate(Request $request)
+    {
+        $filePath = public_path('file-templates/import-supplier.xlsx');
+
+        if (!file_exists($filePath)) {
+            return response()->json(['message' => 'File not found.'], 404);
+        }
+
+        return response()->download($filePath, 'import-supplier.xlsx', [
+            'Content-Type' => mime_content_type($filePath),
+            'Content-Length' => filesize($filePath),
+        ]);
+    }
 }
