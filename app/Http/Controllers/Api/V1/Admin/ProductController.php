@@ -22,9 +22,27 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Product::paginate(10);
+        $data = Product::query();
+
+        if ($request->search) {
+            $data = $data->whereAny([
+                'code',
+                'name',
+                'description',
+            ], 'LIKE', '%' . $request->search . '%');
+
+            $data = $data->orWhereHas('supplier', function ($query) use ($request) {
+                $query->where('code', 'LIKE', '%' . $request->search . '%');
+                $query->orWhere('name', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        $data = $data->orderBy('id', 'DESC');
+
+        $data = $request->per_page ? $data->paginate($request->per_page) : $data->get();
+
         return new ProductCollection($data);
     }
 
@@ -50,7 +68,7 @@ class ProductController extends Controller
             $product = \DB::transaction(function () use ($request, $data) {
                 $product = Product::create($data);
 
-                if ($stock > 0) {
+                if ($product->stock > 0) {
                     $stock = Stock::create([
                         'product_id' => $product->id,
                         'quantity' => $request->stock
@@ -59,8 +77,8 @@ class ProductController extends Controller
 
                 return $product;
             });
-        } catch (\Throwable $th) {
-            return ResponseHelper::sendErrorResponse("Failed to create", Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return ResponseHelper::sendErrorResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return ProductResource::make($product);

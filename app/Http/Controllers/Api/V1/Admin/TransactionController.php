@@ -22,9 +22,43 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Transaction::paginate(10);
+        $data = Transaction::query();
+
+        if ($request->search) {
+            $data = $data->whereAny([
+                'invoice_no',
+                'item_price',
+                'total_price',
+                'status',
+                'paid_at',
+                'created_at',
+            ], 'LIKE', '%' . $request->search . '%');
+
+            $data = $data->orWhereHas('product', function ($query) use ($request) {
+                $query->whereAny([
+                    'code',
+                    'name',
+                ], 'LIKE', '%' . $request->search . '%');
+
+                $query = $query->orWhereHas('supplier', function ($q) use ($request) {
+                    $q->whereAny([
+                        'code',
+                        'name',
+                    ], 'LIKE', '%' . $request->search . '%');
+                });
+            });
+
+            $data = $data->orWhereHas('user', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        $data = $data->orderBy('id', 'DESC');
+
+        $data = $request->per_page ? $data->paginate($request->per_page) : $data->get();
+
         return new TransactionCollection($data);
     }
 
@@ -51,7 +85,8 @@ class TransactionController extends Controller
 
         $data['status'] = TransactionStatus::Paid;
         $data['item_price'] = $price;
-        $data['total_price'] =  $price * $data['quantity'];
+        $data['total_price'] = $price * $data['quantity'];
+        $data['paid_at'] = $request->paid_at ?? now();
 
         $transaction = Transaction::create($data);
 

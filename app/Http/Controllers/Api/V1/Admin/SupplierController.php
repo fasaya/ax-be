@@ -35,9 +35,9 @@ class SupplierController extends Controller
             ], 'LIKE', '%' . $request->search . '%');
         }
 
-        $data = $data
-            ->orderBy('id', 'DESC')
-            ->paginate(10);
+        $data = $data->orderBy('id', 'DESC');
+
+        $data = $request->per_page ? $data->paginate($request->per_page) : $data->get();
 
         return new SupplierCollection($data);
     }
