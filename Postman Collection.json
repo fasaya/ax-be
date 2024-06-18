@@ -1,0 +1,1127 @@
+{
+	"info": {
+		"_postman_id": "98f42f53-771a-4bf4-ac77-a434ff121267",
+		"name": "Ax Backend - Technical Test AxiaSolusi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15546504"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    pm.test(\"Token get\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.collectionVariables.set(\"ax_bearer\", jsonData.data.token)",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "aya@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "ajaxo",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "ajaxo1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "c_password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/register",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    pm.test(\"Token get\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.collectionVariables.set(\"ax_bearer\", jsonData.data.token)",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "aya@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/login",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier?per_page=10",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "jaya",
+									"description": "search by name",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "SP1236",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "PT Cahaya Baru",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Kertas A4 Sinar Dunia",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "npwp",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "preferred_payout",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "code",
+									"value": "SP1235",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "PT Cahaya Baru",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Kertas A4 Sinar Dunia",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "npwp",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pic_email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "preferred_payout",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/fasaya/Documents/APP/test-axiasolusi/ax-be/public/file-templates/import-supplier.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier/import",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier",
+								"import"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download Import Templae",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/supplier/download-import-template",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"supplier",
+								"download-import-template"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ax_bearer}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product?per_page=10",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "tes",
+									"description": "search by name",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "AAA7",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Macbook Pro",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "30000",
+									"type": "text"
+								},
+								{
+									"key": "discounted_price",
+									"value": "30000",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "supplier_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/fasaya/Documents/APP/test-axiasolusi/ax-be/public/file-templates/import-product.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product/import",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product",
+								"import"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "AAA11",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Macbook Pro",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "30000",
+									"type": "text"
+								},
+								{
+									"key": "discounted_price",
+									"value": "20000",
+									"type": "text"
+								},
+								{
+									"key": "supplier_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/product/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction?search=AAA5&per_page=10",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "AAA5",
+									"description": "search by name"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "invoice_no",
+									"value": "TR0017",
+									"type": "text"
+								},
+								{
+									"key": "product_id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "paid_at",
+									"value": "",
+									"description": "2024-06-15 07:58:53",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "invoice_no",
+									"value": "TR002",
+									"type": "text"
+								},
+								{
+									"key": "product_id",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "item_price",
+									"value": "30000",
+									"type": "text"
+								},
+								{
+									"key": "total_price",
+									"value": "62000",
+									"type": "text"
+								},
+								{
+									"key": "paid_at",
+									"value": "2024-06-15 07:58:53",
+									"description": "2024-06-15 07:58:53",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction/:id",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ax_base_url}}/api/v1/admin/transaction/export?start_date=null&end_date=null",
+							"host": [
+								"{{ax_base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"transaction",
+								"export"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "null",
+									"description": "2024-06-18T11:01:34.039Z"
+								},
+								{
+									"key": "end_date",
+									"value": "null",
+									"description": "2024-06-18T11:01:34.039Z"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ax_bearer}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ax_base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "ax_bearer",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
